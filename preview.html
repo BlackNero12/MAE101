@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Đề Thi Đạo Hàm - Phép Chiếu Mất Mát Thông Tin</title>
+
+<!-- MathJax -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'], ['$', '$']]
+  }
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f7fb;
+    margin:0;
+    padding:0;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#005a9c,#3f87d6);
+    color:white;
+    text-align:center;
+    padding:30px;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.scoreBox{
+    position:sticky;
+    top:0;
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+    z-index:999;
+}
+
+.question{
+    background:white;
+    margin-bottom:25px;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.question h3{
+    color:#005a9c;
+}
+
+.level{
+    display:inline-block;
+    padding:6px 14px;
+    border-radius:20px;
+    color:white;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.theory{
+    background:#8e44ad;
+}
+
+.easy{
+    background:#2ecc71;
+}
+
+.medium{
+    background:#f39c12;
+}
+
+.hard{
+    background:#e74c3c;
+}
+
+.option{
+    display:block;
+    width:100%;
+    margin:10px 0;
+    padding:12px;
+    border-radius:10px;
+    border:2px solid #ddd;
+    background:white;
+    cursor:pointer;
+    text-align:left;
+    transition:0.2s;
+    font-size:15px;
+}
+
+.option:hover{
+    background:#eef6ff;
+}
+
+.correct{
+    background:#c8f7c5 !important;
+    border-color:#27ae60 !important;
+}
+
+.wrong{
+    background:#ffd6d6 !important;
+    border-color:#e74c3c !important;
+}
+
+.explanation{
+    margin-top:15px;
+    padding:15px;
+    border-left:5px solid #005a9c;
+    background:#eef6ff;
+    border-radius:10px;
+    display:none;
+}
+
+.tip{
+    margin-top:12px;
+    padding:10px;
+    background:#fff7cc;
+    border-left:5px solid #f1c40f;
+    border-radius:8px;
+}
+
+.download-btn{
+    background:#005a9c;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.download-btn:hover{
+    background:#003f70;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>ĐỀ THI TRẮC NGHIỆM TƯƠNG TÁC</h1>
+    <h2>ĐẠO HÀM – PHÉP CHIẾU MẤT MÁT THÔNG TIN</h2>
+</header>
+
+<div class="container">
+
+<div class="scoreBox">
+    <h2>Điểm hiện tại: <span id="score">0</span>/20</h2>
+
+    <button class="download-btn" onclick="downloadHTML()">
+        Download File HTML
+    </button>
+</div>
+
+<div id="quiz"></div>
+
+</div>
+
+<script>
+
+const questions = [
+
+/* =================================
+5 CÂU LÝ THUYẾT
+================================= */
+
+{
+type:"theory",
+level:"Lý thuyết",
+question:"Theo bài giảng, đạo hàm được xem là gì?",
+options:[
+"Một phép cộng mở rộng",
+"Một phép chiếu mất mát thông tin",
+"Một loại ma trận",
+"Một phép nhân vô hạn"
+],
+answer:1,
+explanation:"Đạo hàm giữ lại xu hướng thay đổi nhưng làm mất hằng số và thông tin quá khứ.",
+tip:"Nhớ cụm từ trung tâm của bài: 'Đạo hàm quên lịch sử'."
+},
+
+{
+type:"theory",
+level:"Lý thuyết",
+question:"Đạo hàm của hằng số \\((C)'\\) bằng:",
+options:[
+"\\(C\\)",
+"1",
+"0",
+"Không xác định"
+],
+answer:2,
+explanation:"Hằng số không thay đổi nên tốc độ thay đổi bằng 0.",
+tip:"Không đổi → đạo hàm bằng 0."
+},
+
+{
+type:"theory",
+level:"Lý thuyết",
+question:"Theo bài giảng, đạo hàm đặt ra câu hỏi nào?",
+options:[
+"Bạn từng là ai?",
+"Bạn đang thay đổi thế nào ngay lúc này?",
+"Bạn sẽ ra sao trong tương lai?",
+"Giá trị tuyệt đối là bao nhiêu?"
+],
+answer:1,
+explanation:"Đạo hàm chỉ quan tâm đến sự thay đổi hiện tại.",
+tip:"Đạo hàm nhìn hiện tại, không nhìn lịch sử."
+},
+
+{
+type:"theory",
+level:"Lý thuyết",
+question:"Nguyên hàm khác đạo hàm ở điểm nào?",
+options:[
+"Nguyên hàm luôn duy nhất",
+"Nguyên hàm không cần hằng số",
+"Nguyên hàm khôi phục nhưng không duy nhất",
+"Nguyên hàm luôn bằng 0"
+],
+answer:2,
+explanation:"Nguyên hàm phải thêm hằng số C nên không duy nhất.",
+tip:"Thấy nguyên hàm → nhớ '+ C'."
+},
+
+{
+type:"theory",
+level:"Lý thuyết",
+question:"Trong vật lý, đạo hàm của vị trí là:",
+options:[
+"Gia tốc",
+"Khối lượng",
+"Vận tốc",
+"Năng lượng"
+],
+answer:2,
+explanation:"Vận tốc là tốc độ thay đổi của vị trí theo thời gian.",
+tip:"Vị trí → đạo hàm → vận tốc."
+},
+
+/* =================================
+5 CÂU DỄ
+================================= */
+
+{
+type:"easy",
+level:"Dễ",
+question:"Đạo hàm của \\(f(x)=x^2\\) là:",
+options:[
+"\\(x\\)",
+"\\(2x\\)",
+"\\(x^3\\)",
+"2"
+],
+answer:1,
+explanation:"Áp dụng quy tắc \\((x^n)'=nx^{n-1}\\).",
+tip:"Kéo số mũ xuống trước."
+},
+
+{
+type:"easy",
+level:"Dễ",
+question:"Đạo hàm của \\(f(x)=5\\) là:",
+options:[
+"5",
+"1",
+"0",
+"x"
+],
+answer:2,
+explanation:"Hằng số không thay đổi nên đạo hàm bằng 0.",
+tip:"Hằng số luôn cho đạo hàm bằng 0."
+},
+
+{
+type:"easy",
+level:"Dễ",
+question:"Nguyên hàm của \\(2x\\) là:",
+options:[
+"\\(x^2+C\\)",
+"\\(2x+C\\)",
+"\\(x+C\\)",
+"\\(2x^2\\)"
+],
+answer:0,
+explanation:"Vì \\((x^2)'=2x\\).",
+tip:"Nguyên hàm là đi ngược đạo hàm."
+},
+
+{
+type:"easy",
+level:"Dễ",
+question:"Đạo hàm của \\(3x\\) là:",
+options:[
+"0",
+"1",
+"3",
+"\\(3x^2\\)"
+],
+answer:2,
+explanation:"Đạo hàm của ax là a.",
+tip:"Hàm bậc nhất → đạo hàm bằng hệ số."
+},
+
+{
+type:"easy",
+level:"Dễ",
+question:"\\(\\int 1 dx = ?\\)",
+options:[
+"1",
+"x+C",
+"0",
+"\\(x^2\\)"
+],
+answer:1,
+explanation:"Vì đạo hàm của x là 1.",
+tip:"Đạo hàm của x là 1 nên nguyên hàm của 1 là x."
+},
+
+/* =================================
+5 CÂU TRUNG BÌNH
+================================= */
+
+{
+type:"medium",
+level:"Trung bình",
+question:"Đạo hàm của \\(x^3\\) là:",
+options:[
+"\\(3x^2\\)",
+"\\(x^2\\)",
+"\\(3x\\)",
+"\\(x^4\\)"
+],
+answer:0,
+explanation:"Áp dụng quy tắc lũy thừa.",
+tip:"Kéo 3 xuống trước rồi giảm số mũ đi 1."
+},
+
+{
+type:"medium",
+level:"Trung bình",
+question:"Nguyên hàm của \\(6x\\) là:",
+options:[
+"\\(3x^2+C\\)",
+"\\(6x^2\\)",
+"\\(x^6\\)",
+"\\(6+C\\)"
+],
+answer:0,
+explanation:"Vì \\((3x^2)'=6x\\).",
+tip:"Chia hệ số cho số mũ mới."
+},
+
+{
+type:"medium",
+level:"Trung bình",
+question:"Đạo hàm của \\(x^2+5\\) là:",
+options:[
+"\\(2x+5\\)",
+"\\(2x\\)",
+"\\(x\\)",
+"5"
+],
+answer:1,
+explanation:"Hằng số 5 biến mất sau khi đạo hàm.",
+tip:"Đây chính là ví dụ 'đạo hàm quên lịch sử'."
+},
+
+{
+type:"medium",
+level:"Trung bình",
+question:"Nếu \\(f'(x)=0\\) thì \\(f(x)\\) là:",
+options:[
+"Hàm mũ",
+"Hàm hằng",
+"Hàm bậc hai",
+"Hàm lượng giác"
+],
+answer:1,
+explanation:"Đạo hàm bằng 0 nghĩa là không thay đổi.",
+tip:"Không đổi → hàm hằng."
+},
+
+{
+type:"medium",
+level:"Trung bình",
+question:"Đạo hàm của \\(2x^2\\) là:",
+options:[
+"\\(2x\\)",
+"\\(4x\\)",
+"\\(x^2\\)",
+"4"
+],
+answer:1,
+explanation:"\\((2x^2)'=4x\\)",
+tip:"Nhân hệ số ngoài với số mũ."
+},
+
+/* =================================
+5 CÂU KHÓ
+================================= */
+
+{
+type:"hard",
+level:"Khó",
+question:"Đạo hàm của \\(x^4+7\\) là:",
+options:[
+"\\(4x^3\\)",
+"\\(4x^3+7\\)",
+"\\(x^3\\)",
+"7"
+],
+answer:0,
+explanation:"Hằng số 7 biến mất khi đạo hàm.",
+tip:"Hằng số luôn bị 'xóa'."
+},
+
+{
+type:"hard",
+level:"Khó",
+question:"Nguyên hàm của \\(4x^3\\) là:",
+options:[
+"\\(x^4+C\\)",
+"\\(4x^4\\)",
+"\\(x^3+C\\)",
+"\\(4x+C\\)"
+],
+answer:0,
+explanation:"Vì \\((x^4)'=4x^3\\).",
+tip:"Tăng số mũ lên 1 rồi chia."
+},
+
+{
+type:"hard",
+level:"Khó",
+question:"Nếu vận tốc là đạo hàm của vị trí thì muốn tìm vị trí cần:",
+options:[
+"Lấy logarit",
+"Đạo hàm lần nữa",
+"Lấy nguyên hàm",
+"Nhân với x"
+],
+answer:2,
+explanation:"Nguyên hàm giúp khôi phục vị trí từ vận tốc.",
+tip:"Muốn quay lại quá khứ → dùng nguyên hàm."
+},
+
+{
+type:"hard",
+level:"Khó",
+question:"Đạo hàm của \\(5x^5\\) là:",
+options:[
+"\\(25x^4\\)",
+"\\(5x^4\\)",
+"\\(x^5\\)",
+"25"
+],
+answer:0,
+explanation:"Kéo số mũ xuống: 5×5=25.",
+tip:"Nhân hệ số với số mũ."
+},
+
+{
+type:"hard",
+level:"Khó",
+question:"Nguyên hàm của \\(0\\) là:",
+options:[
+"0",
+"\\(C\\)",
+"1",
+"x"
+],
+answer:1,
+explanation:"Mọi hằng số đều có đạo hàm bằng 0.",
+tip:"Nếu đạo hàm bằng 0 thì hàm gốc là hằng số."
+}
+
+];
+
+const quiz = document.getElementById("quiz");
+
+let score = 0;
+
+questions.forEach((q,index)=>{
+
+    const div = document.createElement("div");
+
+    div.className="question";
+
+    div.innerHTML = `
+        <div class="level ${q.type}">
+            ${q.level}
+        </div>
+
+        <h3>Câu ${index+1}: ${q.question}</h3>
+    `;
+
+    q.options.forEach((opt,i)=>{
+
+        const btn = document.createElement("button");
+
+        btn.className="option";
+
+        btn.innerHTML = opt;
+
+        btn.onclick = ()=>{
+
+            if(div.classList.contains("answered")) return;
+
+            div.classList.add("answered");
+
+            const allOptions = div.querySelectorAll(".option");
+
+            allOptions.forEach((b,idx)=>{
+
+                if(idx===q.answer){
+                    b.classList.add("correct");
+                }
+
+            });
+
+            if(i===q.answer){
+
+                btn.classList.add("correct");
+
+                score++;
+
+                document.getElementById("score").innerText=score;
+
+            }else{
+
+                btn.classList.add("wrong");
+
+            }
+
+            explanation.style.display="block";
+
+            MathJax.typesetPromise();
+
+        };
+
+        div.appendChild(btn);
+
+    });
+
+    const explanation = document.createElement("div");
+
+    explanation.className="explanation";
+
+    explanation.innerHTML = `
+        <strong>Đáp án đúng:</strong> ${q.options[q.answer]}
+
+        <br><br>
+
+        <strong>Giải thích:</strong> ${q.explanation}
+
+        <div class="tip">
+            <strong>Mẹo làm nhanh:</strong> ${q.tip}
+        </div>
+    `;
+
+    div.appendChild(explanation);
+
+    quiz.appendChild(div);
+
+});
+
+function downloadHTML(){
+
+    const htmlContent = document.documentElement.outerHTML;
+
+    const blob = new Blob([htmlContent], {type:"text/html"});
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+
+    link.download = "de-thi-dao-ham.html";
+
+    link.click();
+
+}
+
+</script>
+
+</body>
+</html>
